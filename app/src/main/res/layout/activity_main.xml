@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gw.marquee.MainActivity">
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+</LinearLayout>
