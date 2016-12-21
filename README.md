@@ -3,7 +3,7 @@
 支持自定义跑马灯ItemView
 
 ### 效果图
-<img src="/screenshot/MarqueeView_Gif.gif" style="width: 30%;">
+<img src="/screenshot/screenshot.gif" style="width: 30%;">
 
 ### 使用
 
