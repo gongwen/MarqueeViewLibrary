@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         MarqueeView marqueeView5 = (MarqueeView) findViewById(R.id.marqueeView5);
 
         MarqueeFactory<TextView, String> marqueeFactory1 = new NoticeMF(this);
+        marqueeView1.setMarqueeFactory(marqueeFactory1);
+        marqueeView1.startFlipping();
         marqueeFactory1.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
             @Override
             public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
@@ -33,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         marqueeFactory1.setData(datas);
-        marqueeView1.setMarqueeFactory(marqueeFactory1);
-        marqueeView1.startFlipping();
 
         MarqueeFactory<TextView, String> marqueeFactory2 = new NoticeMF(this);
         marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {

@@ -17,6 +17,7 @@ public abstract class MarqueeFactory<T extends View, E> {
     protected List<T> mViews;
     protected List<E> datas;
     private boolean isOnItemClickRegistered;
+    private MarqueeView mMarqueeView;
 
     public MarqueeFactory(Context mContext) {
         this.mContext = mContext;
@@ -36,6 +37,9 @@ public abstract class MarqueeFactory<T extends View, E> {
             mViews.add(mView);
         }
         registerOnItemClick();
+        if (mMarqueeView != null) {
+            mMarqueeView.setMarqueeFactory(this);
+        }
     }
 
     public void setOnItemClickListener(OnItemClickListener<T, E> mOnItemClickListener) {
@@ -78,5 +82,9 @@ public abstract class MarqueeFactory<T extends View, E> {
             this.data = data;
             this.position = position;
         }
+    }
+
+    public void setAttachedToMarqueeView(MarqueeView marqueeView) {
+        this.mMarqueeView = marqueeView;
     }
 }

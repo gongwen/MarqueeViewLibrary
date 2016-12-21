@@ -49,6 +49,7 @@ public class MarqueeView extends ViewFlipper {
     }
 
     public void setMarqueeFactory(MarqueeFactory factory) {
+        factory.setAttachedToMarqueeView(this);
         removeAllViews();
         List<View> mViews = factory.getMarqueeViews();
         if (mViews != null) {
