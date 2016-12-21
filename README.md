@@ -1,12 +1,15 @@
 # MarqueeViewDemo
 通过MarqueeFactory来提供各种样式的跑马灯View，
 支持自定义跑马灯ItemView
+
 ### 效果图
-<img src="/screenshot/screenshot.gif">
+<img src="/screenshot/MarqueeView_Gif.gif" style="width: 30%;">
 
 ### 使用
+
 #### Gradle:
 compile 'com.gongwen:marqueelibrary:1.0.0'
+
 #### 通过自定义MarqueeFactory来设置ItemView
 继承自MarqueeFactory，通过泛型指定ItemView类型以及ItemData类型，之后实现generateMarqueeItemView方法，提供ItemView，并为ItemView设置数据即可。
 ##### 例如：
@@ -33,6 +36,7 @@ public class NoticeMF extends MarqueeFactory<TextView, String> {
 MarqueeFactory<TextView, String> marqueeFactory2 = new NoticeMF(this);
 marqueeFactory2.setData(datas);
 </pre>
+
 #### 设置事件监听
 <pre>
 marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
@@ -42,6 +46,9 @@ marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<Te
             }
 });
 </pre>
+
+#### MarqueeView设置Factory
+<code>marqueeView.setMarqueeFactory(marqueeFactory);</code>
 
 License
 --
