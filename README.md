@@ -8,7 +8,7 @@
 ### 使用
 
 #### Gradle:
-compile 'com.gongwen:marqueelibrary:1.0.0'
+compile 'com.gongwen:marqueelibrary:1.0.2'
 
 #### 属性
 
