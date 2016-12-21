@@ -1,6 +1,7 @@
 package com.gongwen.marqueen;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,6 +19,8 @@ public class MarqueeView extends ViewFlipper {
     private int interval = 2500;//Item翻页时间间隔
     private int animDuration = 500;//Item动画执行时间
     private Animation animIn, animOut;//进出动画
+    private int animInRes = R.anim.bottom_in;
+    private int animOutRes = R.anim.top_out;
 
     public MarqueeView(Context context) {
         this(context, null);
@@ -25,15 +28,22 @@ public class MarqueeView extends ViewFlipper {
 
     public MarqueeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
-    private void init() {
+    private void init(AttributeSet attrs) {
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MarqueeView, 0, 0);
+        interval = a.getInt(R.styleable.MarqueeView_marqueeInterval, interval);
+        animInRes = a.getResourceId(R.styleable.MarqueeView_marqueeAnimIn, animInRes);
+        animOutRes = a.getResourceId(R.styleable.MarqueeView_marqueeAnimOut, animOutRes);
+        animDuration = a.getInt(R.styleable.MarqueeView_marqueeAnimDuration, animDuration);
+        a.recycle();
+
         setFlipInterval(interval);
-        animIn = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_in);
+        animIn = AnimationUtils.loadAnimation(getContext(), animInRes);
         animIn.setDuration(animDuration);
         setInAnimation(animIn);
-        animOut = AnimationUtils.loadAnimation(getContext(), R.anim.top_out);
+        animOut = AnimationUtils.loadAnimation(getContext(), animOutRes);
         animOut.setDuration(animDuration);
         setOutAnimation(animOut);
     }

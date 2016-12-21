@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         });
         marqueeFactory2.setData(datas);
         marqueeView2.setMarqueeFactory(marqueeFactory2);
-        marqueeView2.setAnimInAndOut(R.anim.right_in, R.anim.left_out);
-        marqueeView2.setAnimDuration(2000);
-        marqueeView2.setInterval(2500);
         marqueeView2.startFlipping();
 
         MarqueeFactory<TextView, String> marqueeFactory3 = new NoticeMF(this);
