@@ -17,7 +17,7 @@ compile 'com.gongwen:marqueelibrary:1.0.0'
 | marqueeInterval         |    翻页时间间隔       |
 | marqueeAnimDuration         | 动画执行时间            |
 | marqueeAnimIn         |  marquee in动画          |
-| marqueeAnimOut         | marquee  out动画          |
+| marqueeAnimOut         | marquee out动画          |
 
 #### 通过自定义MarqueeFactory来设置ItemView
 继承自MarqueeFactory，通过泛型指定ItemView类型以及ItemData类型，之后实现generateMarqueeItemView方法，提供ItemView，并为ItemView设置数据即可。
