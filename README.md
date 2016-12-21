@@ -3,7 +3,7 @@
 支持自定义跑马灯ItemView
 
 ### 效果图
-<img src="/screenshot/screenshot.gif">
+<img src="/screenshot/screen_shot.gif"/>
 
 ### 使用
 
