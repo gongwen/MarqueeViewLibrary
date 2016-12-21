@@ -22,7 +22,7 @@ compile 'com.gongwen:marqueelibrary:1.0.3'
 #### 通过自定义MarqueeFactory来设置ItemView
 继承自MarqueeFactory，通过泛型指定ItemView类型以及ItemData类型，之后实现generateMarqueeItemView方法，提供ItemView，并为ItemView设置数据即可。
 ##### 例如：
-<pre>
+```
 public class NoticeMF extends MarqueeFactory<TextView, String> {
     private LayoutInflater inflater;
 
@@ -38,7 +38,7 @@ public class NoticeMF extends MarqueeFactory<TextView, String> {
         return mView;
     }
 }
-</pre>
+```
 
 #### 设置列表数据
 <pre>
