@@ -42,13 +42,13 @@ public class NoticeMF extends MarqueeFactory<TextView, String> {
 
 #### 设置列表数据
 <pre>
-MarqueeFactory<TextView, String> marqueeFactory2 = new NoticeMF(this);
-marqueeFactory2.setData(datas);
+MarqueeFactory<TextView, String> marqueeFactory = new NoticeMF(this);
+marqueeFactory.setData(datas);
 </pre>
 
 #### 设置事件监听
 <pre>
-marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
+marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
             @Override
             public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
                 Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
