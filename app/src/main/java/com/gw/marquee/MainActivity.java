@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.gongwen.marqueen.MarqueeFactory;
 import com.gongwen.marqueen.MarqueeView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,8 +74,12 @@ public class MainActivity extends AppCompatActivity {
         marqueeView4.setMarqueeFactory(marqueeFactory4);
         marqueeView4.startFlipping();
 
-        MarqueeFactory<RelativeLayout, String> marqueeFactory5 = new ComplexViewMF(this);
-        marqueeFactory5.setData(datas);
+        List<ComplexItemEntity> complexDatas = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            complexDatas.add(new ComplexItemEntity("标题 " + i, "副标题 " + i, "时间 " + i));
+        }
+        MarqueeFactory<RelativeLayout, ComplexItemEntity> marqueeFactory5 = new ComplexViewMF(this);
+        marqueeFactory5.setData(complexDatas);
         marqueeView5.setAnimInAndOut(R.anim.top_in, R.anim.bottom_out);
         marqueeView5.setMarqueeFactory(marqueeFactory5);
         marqueeView5.startFlipping();
