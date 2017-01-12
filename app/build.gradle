@@ -26,6 +26,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
-    //compile project(':marqueelibrary')
-    compile 'com.gongwen:marqueelibrary:1.0.3'
+    compile project(':marqueelibrary')
+    //compile 'com.gongwen:marqueelibrary:1.0.3'
 }

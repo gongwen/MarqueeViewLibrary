@@ -2,6 +2,7 @@ package com.gongwen.marqueen;
 
 import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public abstract class MarqueeFactory<T extends View, E> {
 
     public abstract T generateMarqueeItemView(E data);
 
-    public void setData(List<E> datas) {
+    public void updateData(List<E> datas) {
         if (datas == null || datas.size() == 0) {
             return;
         }
@@ -39,6 +40,40 @@ public abstract class MarqueeFactory<T extends View, E> {
         registerOnItemClick();
         if (mMarqueeView != null) {
             mMarqueeView.setMarqueeFactory(this);
+        }
+    }
+
+    public void setData(final List<E> datas) {
+        if (datas == null || datas.size() == 0) {
+            return;
+        }
+        if (mMarqueeView == null || (mMarqueeView != null && this.datas == null)) {
+            updateData(datas);
+        } else {
+            //防止多次更新数据可能导致的叠影问题
+            if (mMarqueeView.getInAnimation() != null) {
+                mMarqueeView.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
+                    boolean isAnimationStopped = false;
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        if (!isAnimationStopped) {
+                            updateData(datas);
+                            isAnimationStopped = false;
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }
         }
     }
 

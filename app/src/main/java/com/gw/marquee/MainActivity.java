@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
+        final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
         MarqueeView marqueeView1 = (MarqueeView) findViewById(R.id.marqueeView1);
-        MarqueeView marqueeView2 = (MarqueeView) findViewById(R.id.marqueeView2);
+        final MarqueeView marqueeView2 = (MarqueeView) findViewById(R.id.marqueeView2);
         MarqueeView marqueeView3 = (MarqueeView) findViewById(R.id.marqueeView3);
         MarqueeView marqueeView4 = (MarqueeView) findViewById(R.id.marqueeView4);
         MarqueeView marqueeView5 = (MarqueeView) findViewById(R.id.marqueeView5);
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         });
         marqueeFactory1.setData(datas);
 
-        MarqueeFactory<TextView, String> marqueeFactory2 = new NoticeMF(this);
+        final MarqueeFactory<TextView, String> marqueeFactory2 = new NoticeMF(this);
         marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
             @Override
             public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
@@ -83,5 +83,14 @@ public class MainActivity extends AppCompatActivity {
         marqueeView5.setAnimInAndOut(R.anim.top_in, R.anim.bottom_out);
         marqueeView5.setMarqueeFactory(marqueeFactory5);
         marqueeView5.startFlipping();
+
+        marqueeView2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                marqueeFactory2.updateData(datas);
+                marqueeFactory2.setData(datas);
+                marqueeView2.postDelayed(this, 4000);
+            }
+        }, 4000);
     }
 }
