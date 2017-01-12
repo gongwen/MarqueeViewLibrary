@@ -17,7 +17,6 @@ public abstract class MarqueeFactory<T extends View, E> {
     protected OnItemClickListener onItemClickListener;
     protected List<T> mViews;
     protected List<E> datas;
-    private boolean isOnItemClickRegistered;
     private MarqueeView mMarqueeView;
 
     public MarqueeFactory(Context mContext) {
@@ -35,9 +34,17 @@ public abstract class MarqueeFactory<T extends View, E> {
         for (int i = 0; i < datas.size(); i++) {
             E data = datas.get(i);
             T mView = generateMarqueeItemView(data);
+            mView.setTag(new ViewHolder(mView, data, i));
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClickListener((ViewHolder<T, E>) view.getTag());
+                    }
+                }
+            });
             mViews.add(mView);
         }
-        registerOnItemClick();
         if (mMarqueeView != null) {
             mMarqueeView.setMarqueeFactory(this);
         }
@@ -57,7 +64,6 @@ public abstract class MarqueeFactory<T extends View, E> {
 
                     @Override
                     public void onAnimationStart(Animation animation) {
-
                     }
 
                     @Override
@@ -70,7 +76,6 @@ public abstract class MarqueeFactory<T extends View, E> {
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
             }
@@ -79,28 +84,10 @@ public abstract class MarqueeFactory<T extends View, E> {
 
     public void setOnItemClickListener(OnItemClickListener<T, E> mOnItemClickListener) {
         this.onItemClickListener = mOnItemClickListener;
-        registerOnItemClick();
     }
 
     public List<T> getMarqueeViews() {
         return mViews;
-    }
-
-    private void registerOnItemClick() {
-        if (!isOnItemClickRegistered && onItemClickListener != null && datas != null) {
-            for (int i = 0; i < datas.size(); i++) {
-                T mView = mViews.get(i);
-                E data = datas.get(i);
-                mView.setTag(new ViewHolder(mView, data, i));
-                mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onItemClickListener.onItemClickListener((ViewHolder<T, E>) view.getTag());
-                    }
-                });
-            }
-            isOnItemClickRegistered = true;
-        }
     }
 
     public interface OnItemClickListener<V extends View, E> {
