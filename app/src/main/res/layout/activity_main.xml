@@ -58,4 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
 </LinearLayout>

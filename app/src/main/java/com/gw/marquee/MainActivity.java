@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         MarqueeView marqueeView4 = (MarqueeView) findViewById(R.id.marqueeView4);
         MarqueeView marqueeView5 = (MarqueeView) findViewById(R.id.marqueeView5);
         final MarqueeView marqueeView6 = (MarqueeView) findViewById(R.id.marqueeView6);
+        MarqueeView marqueeView7 = (MarqueeView) findViewById(R.id.marqueeView7);
 
         MarqueeFactory<TextView, String> marqueeFactory1 = new NoticeMF(this);
         marqueeView1.setMarqueeFactory(marqueeFactory1);
@@ -96,9 +97,17 @@ public class MainActivity extends AppCompatActivity {
         marqueeView5.setAnimInAndOut(R.anim.top_in, R.anim.bottom_out);
         marqueeView5.setMarqueeFactory(marqueeFactory5);
         marqueeView5.startFlipping();
+
+        MarqueeFactory<RelativeLayout, ComplexItemEntity> marqueeFactory7 = new ComplexViewMF(this);
+        marqueeView7.setAnimInAndOut(R.anim.top_in, R.anim.bottom_out);
+        marqueeView7.setMarqueeFactory(marqueeFactory7);
+        marqueeView7.startFlipping();
+        marqueeFactory7.resetData(complexDatas);
+
         //当MarqueeView多次更新数据源时，最好使用resetData方法，防止出现叠影
         //以下是为了对比setData，reSetData区别
-        //测试重置数据使用resetData
+
+        //测试重置数据使用resetData方法
         marqueeView2.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -108,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 marqueeView2.postDelayed(this, delayMillis);
             }
         }, 4000);
-        //测试重置数据使用setData
+        //测试重置数据使用setData方法
         marqueeView6.postDelayed(new Runnable() {
             @Override
             public void run() {

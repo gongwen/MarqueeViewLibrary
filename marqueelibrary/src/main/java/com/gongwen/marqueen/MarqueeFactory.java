@@ -25,7 +25,7 @@ public abstract class MarqueeFactory<T extends View, E> {
 
     public abstract T generateMarqueeItemView(E data);
 
-    //仅加载一次数据源
+    //适用于仅加载一次数据源
     public void setData(List<E> datas) {
         if (datas == null || datas.size() == 0) {
             return;
@@ -51,7 +51,7 @@ public abstract class MarqueeFactory<T extends View, E> {
         }
     }
 
-    //多次更新数据源
+    //适用于多次（含一次）更新数据源
     public void resetData(final List<E> datas) {
         if (datas == null || datas.size() == 0) {
             return;
