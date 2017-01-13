@@ -28,6 +28,17 @@
         app:marqueeInterval="2500"></com.gongwen.marqueen.MarqueeView>
 
     <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marqueeView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#88dddddd"
+        app:marqueeAnimDuration="2000"
+        app:marqueeAnimIn="@anim/right_in"
+        app:marqueeAnimOut="@anim/left_out"
+        app:marqueeInterval="2500"></com.gongwen.marqueen.MarqueeView>
+
+    <com.gongwen.marqueen.MarqueeView
         android:id="@+id/marqueeView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

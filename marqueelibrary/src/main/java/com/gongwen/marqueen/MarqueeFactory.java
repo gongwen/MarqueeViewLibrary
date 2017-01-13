@@ -25,7 +25,8 @@ public abstract class MarqueeFactory<T extends View, E> {
 
     public abstract T generateMarqueeItemView(E data);
 
-    public void updateData(List<E> datas) {
+    //仅加载一次数据源
+    public void setData(List<E> datas) {
         if (datas == null || datas.size() == 0) {
             return;
         }
@@ -50,12 +51,13 @@ public abstract class MarqueeFactory<T extends View, E> {
         }
     }
 
-    public void setData(final List<E> datas) {
+    //多次更新数据源
+    public void resetData(final List<E> datas) {
         if (datas == null || datas.size() == 0) {
             return;
         }
         if (mMarqueeView == null || (mMarqueeView != null && this.datas == null)) {
-            updateData(datas);
+            setData(datas);
         } else {
             //防止多次更新数据可能导致的叠影问题
             if (mMarqueeView.getInAnimation() != null) {
@@ -69,8 +71,8 @@ public abstract class MarqueeFactory<T extends View, E> {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         if (!isAnimationStopped) {
-                            updateData(datas);
-                            isAnimationStopped = false;
+                            setData(datas);
+                            isAnimationStopped = true;
                         }
                     }
 
