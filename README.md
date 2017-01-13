@@ -8,7 +8,7 @@
 ### 使用
 
 #### Gradle:
-compile 'com.gongwen:marqueelibrary:1.0.3'
+compile 'com.gongwen:marqueelibrary:1.0.4'
 
 #### 属性
 
@@ -41,11 +41,16 @@ public class NoticeMF extends MarqueeFactory<TextView, String> {
 ```
 
 #### 设置列表数据
+###### 适用于仅设置一次数据源
 <pre>
 MarqueeFactory<TextView, String> marqueeFactory = new NoticeMF(this);
 marqueeFactory.setData(datas);
 </pre>
-
+###### 适用于多次设置数据源
+<pre>
+MarqueeFactory<TextView, String> marqueeFactory = new NoticeMF(this);
+marqueeFactory.resetData(datas);
+</pre>
 #### 设置事件监听
 <pre>
 marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
