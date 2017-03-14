@@ -2,6 +2,7 @@ package com.gw.marquee;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,19 +16,31 @@ import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+
+    private final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
+
+    private MarqueeView marqueeView1;
+    private MarqueeView marqueeView2;
+    private MarqueeView marqueeView3;
+    private MarqueeView marqueeView4;
+    private MarqueeView marqueeView5;
+    private MarqueeView marqueeView6;
+    private MarqueeView marqueeView7;
+
+    private WeakHandler mHandler = new WeakHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
-        MarqueeView marqueeView1 = (MarqueeView) findViewById(R.id.marqueeView1);
-        final MarqueeView marqueeView2 = (MarqueeView) findViewById(R.id.marqueeView2);
-        final MarqueeView marqueeView3 = (MarqueeView) findViewById(R.id.marqueeView3);
-        MarqueeView marqueeView4 = (MarqueeView) findViewById(R.id.marqueeView4);
-        MarqueeView marqueeView5 = (MarqueeView) findViewById(R.id.marqueeView5);
-        final MarqueeView marqueeView6 = (MarqueeView) findViewById(R.id.marqueeView6);
-        MarqueeView marqueeView7 = (MarqueeView) findViewById(R.id.marqueeView7);
+        marqueeView1 = (MarqueeView) findViewById(R.id.marqueeView1);
+        marqueeView2 = (MarqueeView) findViewById(R.id.marqueeView2);
+        marqueeView3 = (MarqueeView) findViewById(R.id.marqueeView3);
+        marqueeView4 = (MarqueeView) findViewById(R.id.marqueeView4);
+        marqueeView5 = (MarqueeView) findViewById(R.id.marqueeView5);
+        marqueeView6 = (MarqueeView) findViewById(R.id.marqueeView6);
+        marqueeView7 = (MarqueeView) findViewById(R.id.marqueeView7);
 
         MarqueeFactory<TextView, String> marqueeFactory1 = new NoticeMF(this);
         marqueeView1.setMarqueeFactory(marqueeFactory1);
@@ -77,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         marqueeView3.setAnimateFirstView(true);
         //直接调用startFlipping，setAnimateFirstView并没有生效
         //marqueeView3.startFlipping();
-        marqueeView3.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 marqueeView3.startFlipping();
@@ -116,24 +129,49 @@ public class MainActivity extends AppCompatActivity {
         //以下是为了对比setData，reSetData区别
 
         //测试重置数据使用resetData方法
-        marqueeView2.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Random random = new Random();
                 int delayMillis = (random.nextInt(5) + 4) * 1000;
                 marqueeFactory2.resetData(datas);
-                marqueeView2.postDelayed(this, delayMillis);
+                mHandler.postDelayed(this, delayMillis);
             }
-        }, 4000);
+        }, 8000);
         //测试重置数据使用setData方法
-        marqueeView6.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.e(TAG, "mHandler.postDelayed");
                 Random random = new Random();
                 int delayMillis = (random.nextInt(5) + 4) * 1000;
                 marqueeFactory6.setData(datas);
-                marqueeView6.postDelayed(this, delayMillis);
+                mHandler.postDelayed(this, delayMillis);
             }
-        }, 4000);
+        }, 8000);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        marqueeView1.startFlipping();
+        marqueeView2.startFlipping();
+        marqueeView3.startFlipping();
+        marqueeView4.startFlipping();
+        marqueeView5.startFlipping();
+        marqueeView6.startFlipping();
+        marqueeView7.startFlipping();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        marqueeView1.stopFlipping();
+        marqueeView2.stopFlipping();
+        marqueeView3.stopFlipping();
+        marqueeView4.stopFlipping();
+        marqueeView5.stopFlipping();
+        marqueeView6.stopFlipping();
+        marqueeView7.stopFlipping();
     }
 }

@@ -64,6 +64,22 @@ marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<Tex
 #### MarqueeView设置Factory
 <code>marqueeView.setMarqueeFactory(marqueeFactory);</code>
 
+
+#### 重影问题可参考以下解决方案(参考自[这里](https://github.com/sfsheng0322/MarqueeView))
+
+<pre>
+@Override
+public void onStart() {
+    super.onStart();
+    marqueeView.startFlipping();
+}
+
+@Override
+public void onStop() {
+    super.onStop();
+    marqueeView.stopFlipping();
+}
+</pre>
 License
 --
     Copyright (C) 2016 1798550470@qq.com
