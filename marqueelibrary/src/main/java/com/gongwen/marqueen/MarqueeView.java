@@ -96,10 +96,4 @@ public class MarqueeView extends ViewFlipper {
     public Animation getAnimOut() {
         return animOut;
     }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        stopFlipping();
-    }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 public abstract class MarqueeFactory<T extends View, E> {
     protected Context mContext;
-    protected OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
     protected List<T> mViews;
     protected List<E> datas;
     private MarqueeView mMarqueeView;
