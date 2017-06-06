@@ -3,6 +3,7 @@ package com.gongwen.marqueen;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
+import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,13 @@ public abstract class MarqueeFactory<T extends View, E> {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         if (!isAnimationStopped) {
-                            setData(datas);
-                            isAnimationStopped = true;
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setData(datas);
+                                    isAnimationStopped = true;
+                                }
+                            });
                         }
                     }
 
