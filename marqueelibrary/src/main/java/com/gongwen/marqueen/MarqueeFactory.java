@@ -2,17 +2,20 @@ package com.gongwen.marqueen;
 
 import android.content.Context;
 import android.view.View;
-import android.view.animation.Animation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by GongWen on 16/12/20.
  * 负责解析提供数据及事件监听
  */
 
-public abstract class MarqueeFactory<T extends View, E> {
+public abstract class MarqueeFactory<T extends View, E> extends Observable {
+    public final static String COMMAND_UPDATE_DATA = "UPDATE_DATA";
+
     protected Context mContext;
     protected OnItemClickListener onItemClickListener;
     protected List<T> mViews;
@@ -23,11 +26,14 @@ public abstract class MarqueeFactory<T extends View, E> {
         this.mContext = mContext;
     }
 
-    public abstract T generateMarqueeItemView(E data);
+    protected abstract T generateMarqueeItemView(E data);
 
-    //适用于仅加载一次数据源
+    protected List<T> getMarqueeViews() {
+        return mViews != null ? mViews : Collections.EMPTY_LIST;
+    }
+
     public void setData(List<E> datas) {
-        if (datas == null || datas.size() == 0) {
+        if (datas == null) {
             return;
         }
         this.datas = datas;
@@ -46,50 +52,11 @@ public abstract class MarqueeFactory<T extends View, E> {
             });
             mViews.add(mView);
         }
-        if (mMarqueeView != null) {
-            mMarqueeView.setMarqueeFactory(this);
-        }
-    }
-
-    //适用于多次（含一次）更新数据源
-    public void resetData(final List<E> datas) {
-        if (datas == null || datas.size() == 0) {
-            return;
-        }
-        if (mMarqueeView == null || (mMarqueeView != null && this.datas == null)) {
-            setData(datas);
-        } else {
-            //防止多次更新数据可能导致的叠影问题
-            if (mMarqueeView.getInAnimation() != null) {
-                mMarqueeView.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
-                    boolean isAnimationStopped = false;
-
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        if (!isAnimationStopped) {
-                            setData(datas);
-                            isAnimationStopped = true;
-                        }
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                });
-            }
-        }
+        notifyDataChanged();
     }
 
     public void setOnItemClickListener(OnItemClickListener<T, E> mOnItemClickListener) {
         this.onItemClickListener = mOnItemClickListener;
-    }
-
-    public List<T> getMarqueeViews() {
-        return mViews;
     }
 
     public interface OnItemClickListener<V extends View, E> {
@@ -108,7 +75,23 @@ public abstract class MarqueeFactory<T extends View, E> {
         }
     }
 
-    public void setAttachedToMarqueeView(MarqueeView marqueeView) {
-        this.mMarqueeView = marqueeView;
+    private boolean isAttachedToMarqueeView() {
+        return this.mMarqueeView != null;
+    }
+
+    protected void attachedToMarqueeView(MarqueeView marqueeView) {
+        if (!isAttachedToMarqueeView()) {
+            this.mMarqueeView = marqueeView;
+            this.addObserver(marqueeView);
+            return;
+        }
+        throw new IllegalStateException(String.format("The %s has been attached to the %s!", toString(), mMarqueeView.toString()));
+    }
+
+    private void notifyDataChanged() {
+        if (isAttachedToMarqueeView()) {
+            setChanged();
+            notifyObservers(COMMAND_UPDATE_DATA);
+        }
     }
 }

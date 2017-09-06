@@ -39,4 +39,13 @@ public class ComplexItemEntity {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "title='" + title + '\'' +
+                ", secondTitle='" + secondTitle + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

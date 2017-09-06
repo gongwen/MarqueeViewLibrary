@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.gongwen.marqueen.MarqueeView
+            android:id="@+id/marqueeView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+        <com.gongwen.marqueen.MarqueeView
+            android:id="@+id/marqueeView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+        <com.gongwen.marqueen.MarqueeView
+            android:id="@+id/marqueeView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+        <com.gongwen.marqueen.MarqueeView
+            android:id="@+id/marqueeView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+
+        <com.gongwen.marqueen.MarqueeView
+            android:id="@+id/marqueeView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#88dddddd"
+            android:flipInterval="2500"
+            android:inAnimation="@anim/in_right"
+            android:outAnimation="@anim/out_left"
+            app:marqueeAnimDuration="2000"></com.gongwen.marqueen.MarqueeView>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

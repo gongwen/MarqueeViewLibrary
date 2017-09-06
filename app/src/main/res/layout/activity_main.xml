@@ -2,72 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.gw.marquee.MainActivity">
 
-
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView1"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@color/white"></android.support.design.widget.TabLayout>
 
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView2"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#88dddddd"
-        app:marqueeAnimDuration="2000"
-        app:marqueeAnimIn="@anim/right_in"
-        app:marqueeAnimOut="@anim/left_out"
-        app:marqueeInterval="2500"></com.gongwen.marqueen.MarqueeView>
-
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
-
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
-
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
-
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#88dddddd"></com.gongwen.marqueen.MarqueeView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="错误示例" />
-
-    <com.gongwen.marqueen.MarqueeView
-        android:id="@+id/marqueeView6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#88dddddd"
-        app:marqueeAnimDuration="2000"
-        app:marqueeAnimIn="@anim/right_in"
-        app:marqueeAnimOut="@anim/left_out"
-        app:marqueeInterval="2500"></com.gongwen.marqueen.MarqueeView>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 </LinearLayout>
