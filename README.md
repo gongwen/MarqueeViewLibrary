@@ -21,7 +21,7 @@ MarqueeView属性
 | autoStart         | 动画是否自动开始         |
 | animateFirstView         | 当前ChildView第一次是否动画展示         |
 
-SimpleMarqueeView属性(MarqueeView所有属性及以下属性)
+SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
 
 | Attribute 属性          | Description 描述 |
 |:---				     |:---|
