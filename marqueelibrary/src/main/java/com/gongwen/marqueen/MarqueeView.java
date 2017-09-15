@@ -90,8 +90,6 @@ public class MarqueeView extends ViewFlipper implements Observer {
             addView(mViews.get(i));
         }
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public void update(Observable o, Object arg) {
@@ -113,5 +111,4 @@ public class MarqueeView extends ViewFlipper implements Observer {
             }
         }
     }
->>>>>>> dev
 }
