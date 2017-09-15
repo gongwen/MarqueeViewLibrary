@@ -1,16 +1,17 @@
 # MarqueeViewLibrary
 跑马灯View，支持自定义跑马灯ItemView。
 
-### 效果图
+## 效果图
 <img src="/screenshot/screen_shot.gif"/>
 
-### 使用
+## 使用
 
-#### Gradle:
+### Gradle:
 compile 'com.gongwen:marqueelibrary:1.1.1'
 
-#### 属性
+### 属性
 MarqueeView属性
+
 | Attribute 属性          | Description 描述 |
 |:---				     |:---|
 | flipInterval         |    翻页时间间隔       |
@@ -21,14 +22,16 @@ MarqueeView属性
 | animateFirstView         | 当前ChildView第一次是否动画展示         |
 
 SimpleMarqueeView属性(MarqueeView所有属性及以下属性)
+
 | Attribute 属性          | Description 描述 |
 |:---				     |:---|
 | smvTextSize         |    文字大小       |
 | smvTextColor         | 文字颜色            |
 | smvTextGravity         |  文字位置          |
 
-#### 用法一：使用SimpleMarqueeView和SimpleMF
-##### XML
+### 用法一：使用SimpleMarqueeView和SimpleMF
+
+#### XML
 ```
 <com.gongwen.marqueen.SimpleMarqueeView
     android:id="@+id/simpleMarqueeView"
@@ -42,7 +45,8 @@ SimpleMarqueeView属性(MarqueeView所有属性及以下属性)
     app:smvTextGravity="center_vertical"
     app:smvTextSize="15sp"></com.gongwen.marqueen.SimpleMarqueeView>
 ```
-##### 设置数据
+
+#### 设置数据
 ```
 SimpleMarqueeView marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
@@ -51,7 +55,8 @@ marqueeFactory.setData(datas);
 marqueeView.setMarqueeFactory(marqueeFactory);
 marqueeView.startFlipping();
 ```
-##### 设置事件监听
+
+#### 设置事件监听
 ```
 marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
     @Override
@@ -60,9 +65,10 @@ marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<Tex
     }
 });
 ```
-#### 用法二：自定义MarqueeFactory来设置不同类型ItemView
 
-##### XML
+### 用法二：自定义MarqueeFactory来设置不同类型ItemView
+
+#### XML
 ```
 <com.gongwen.marqueen.MarqueeView
     android:id="@+id/marqueeView4"
@@ -74,9 +80,10 @@ marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<Tex
     app:marqueeAnimDuration="2000"></com.gongwen.marqueen.MarqueeView>
 
 ```
-##### 自定义MarqueeFactory
+
+#### 自定义MarqueeFactory
 继承自MarqueeFactory，通过泛型指定ItemView类型以及ItemData类型，之后实现generateMarqueeItemView方法，提供ItemView，并为ItemView设置数据即可。
-###### 例如：
+##### 例如：
 ```
 public class ComplexViewMF extends MarqueeFactory<RelativeLayout, ComplexItemEntity> {
     private LayoutInflater inflater;
@@ -96,7 +103,7 @@ public class ComplexViewMF extends MarqueeFactory<RelativeLayout, ComplexItemEnt
     }
 }
 ```
-##### 设置数据和事件监听用法同上
+#### 设置数据和事件监听用法同上
 
 #### 重影问题可参考以下解决方案(参考自[这里](https://github.com/sfsheng0322/MarqueeView))
 
