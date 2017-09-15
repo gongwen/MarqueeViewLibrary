@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 110
-        versionName "1.1.0"
+        versionCode 111
+        versionName "1.1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -35,7 +35,7 @@ publish {
     userOrg = 'gongwen92'      //bintray注册的用户名
     groupId = 'com.gongwen'         //compile引用时的第1部分groupId
     artifactId = 'marqueelibrary'     //compile引用时的第2部分项目名
-    publishVersion = '1.1.0'    //compile引用时的第3部分版本号
+    publishVersion = '1.1.1'    //compile引用时的第3部分版本号
     desc = 'This is the marqueeview library'
     website = 'https://github.com/gongwen/MarqueeViewDemo'
 }

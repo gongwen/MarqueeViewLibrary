@@ -46,8 +46,9 @@ public class SimpleMarqueeView extends MarqueeView {
         a.recycle();
     }
 
-    public void setMarqueeFactory(SimpleMF factory) {
-        super.setMarqueeFactory(factory);
+    @Override
+    protected void refreshChildViews() {
+        super.refreshChildViews();
         List<TextView> views = factory.getMarqueeViews();
         for (TextView textView : views) {
             textView.setTextSize(textSize);
@@ -59,12 +60,10 @@ public class SimpleMarqueeView extends MarqueeView {
     }
 
     public void setTextSize(float textSize) {
-        if (this.textSize != textSize) {
-            this.textSize = textSize;
-            if (factory != null) {
-                for (Object obj : factory.getMarqueeViews()) {
-                    ((TextView) obj).setTextSize(textSize);
-                }
+        this.textSize = textSize;
+        if (factory != null) {
+            for (Object obj : factory.getMarqueeViews()) {
+                ((TextView) obj).setTextSize(textSize);
             }
         }
     }
@@ -83,12 +82,10 @@ public class SimpleMarqueeView extends MarqueeView {
     }
 
     public void setTextGravity(int gravity) {
-        if (this.smvTextGravity != gravity) {
-            this.smvTextGravity = gravity;
-            if (factory != null) {
-                for (Object obj : factory.getMarqueeViews()) {
-                    ((TextView) obj).setGravity(smvTextGravity);
-                }
+        this.smvTextGravity = gravity;
+        if (factory != null) {
+            for (Object obj : factory.getMarqueeViews()) {
+                ((TextView) obj).setGravity(smvTextGravity);
             }
         }
     }

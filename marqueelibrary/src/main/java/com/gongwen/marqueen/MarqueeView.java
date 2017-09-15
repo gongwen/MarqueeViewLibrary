@@ -81,7 +81,7 @@ public class MarqueeView extends ViewFlipper implements Observer {
         refreshChildViews();
     }
 
-    private void refreshChildViews() {
+    protected void refreshChildViews() {
         if (getChildCount() > 0) {
             removeAllViews();
         }
