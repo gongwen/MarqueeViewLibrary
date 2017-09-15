@@ -2,25 +2,36 @@ package com.gongwen.marqueen;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.AnimRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ViewFlipper;
 
+import com.gongwen.marqueen.util.AnimationListenerAdapter;
+
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by GongWen on 16/12/20.
+ * 属性
+ * ViewAnimator_inAnimation
+ * ViewAnimator_outAnimation
+ * ViewAnimator_animateFirstView
+ * ViewFlipper_flipInterval
+ * ViewFlipper_autoStart
+ * MarqueeView_marqueeAnimDuration
+ * <p>
+ * 注意：
+ * interval 必须大于 animDuration，否则视图将会重叠
  */
 
-public class MarqueeView extends ViewFlipper {
-    //interval 必须大于 animDuration，否则视图将会重叠
-    private int interval = 2500;//Item翻页时间间隔
-    private int animDuration = 500;//Item动画执行时间
-    private Animation animIn, animOut;//进出动画
-    private int animInRes = R.anim.bottom_in;
-    private int animOutRes = R.anim.top_out;
+public class MarqueeView extends ViewFlipper implements Observer {
+    protected MarqueeFactory factory;
+    private final int DEFAULT_ANIM_RES_IN = R.anim.in_bottom;
+    private final int DEFAULT_ANIM_RES_OUT = R.anim.out_top;
 
     public MarqueeView(Context context) {
         this(context, null);
@@ -32,68 +43,75 @@ public class MarqueeView extends ViewFlipper {
     }
 
     private void init(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MarqueeView, 0, 0);
-        interval = a.getInt(R.styleable.MarqueeView_marqueeInterval, interval);
-        animInRes = a.getResourceId(R.styleable.MarqueeView_marqueeAnimIn, animInRes);
-        animOutRes = a.getResourceId(R.styleable.MarqueeView_marqueeAnimOut, animOutRes);
-        animDuration = a.getInt(R.styleable.MarqueeView_marqueeAnimDuration, animDuration);
+        if (getInAnimation() == null || getOutAnimation() == null) {
+            setInAnimation(getContext(), DEFAULT_ANIM_RES_IN);
+            setOutAnimation(getContext(), DEFAULT_ANIM_RES_OUT);
+        }
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MarqueeView);
+        if (a.hasValue(R.styleable.MarqueeView_marqueeAnimDuration)) {
+            int animDuration = a.getInt(R.styleable.MarqueeView_marqueeAnimDuration, -1);
+            getInAnimation().setDuration(animDuration);
+            getOutAnimation().setDuration(animDuration);
+        }
         a.recycle();
-
-        setFlipInterval(interval);
-        animIn = AnimationUtils.loadAnimation(getContext(), animInRes);
-        animIn.setDuration(animDuration);
-        setInAnimation(animIn);
-        animOut = AnimationUtils.loadAnimation(getContext(), animOutRes);
-        animOut.setDuration(animDuration);
-        setOutAnimation(animOut);
     }
 
-    public void setMarqueeFactory(MarqueeFactory factory) {
-        factory.setAttachedToMarqueeView(this);
-        removeAllViews();
-        List<View> mViews = factory.getMarqueeViews();
-        if (mViews != null) {
-            for (int i = 0; i < mViews.size(); i++) {
-                addView(mViews.get(i));
-            }
+    public void setAnimDuration(long animDuration) {
+        if (getInAnimation() != null) {
+            getInAnimation().setDuration(animDuration);
+        }
+        if (getOutAnimation() != null) {
+            getOutAnimation().setDuration(animDuration);
         }
     }
 
-    public void setInterval(int interval) {
-        this.interval = interval;
-        setFlipInterval(interval);
+    public void setInAndOutAnim(Animation inAnimation, Animation outAnimation) {
+        setInAnimation(inAnimation);
+        setOutAnimation(outAnimation);
     }
 
-    public void setAnimDuration(int animDuration) {
-        this.animDuration = animDuration;
-        animIn.setDuration(animDuration);
-        setInAnimation(animIn);
-        animOut.setDuration(animDuration);
-        setOutAnimation(animOut);
+    public void setInAndOutAnim(@AnimRes int inResId, @AnimRes int outResId) {
+        setInAnimation(getContext(), inResId);
+        setOutAnimation(getContext(), outResId);
     }
 
-    public void setAnimInAndOut(Animation animIn, Animation animOut) {
-        this.animIn = animIn;
-        this.animOut = animOut;
-        setInAnimation(animIn);
-        setOutAnimation(animOut);
+    public void setMarqueeFactory(MarqueeFactory factory) {
+        this.factory = factory;
+        factory.attachedToMarqueeView(this);
+        refreshChildViews();
     }
 
-    public void setAnimInAndOut(int animInId, int animOutID) {
-        animIn = AnimationUtils.loadAnimation(getContext(), animInId);
-        animOut = AnimationUtils.loadAnimation(getContext(), animOutID);
-        animIn.setDuration(animDuration);
-        animOut.setDuration(animDuration);
-        setInAnimation(animIn);
-        setOutAnimation(animOut);
-
+    protected void refreshChildViews() {
+        if (getChildCount() > 0) {
+            removeAllViews();
+        }
+        List<View> mViews = factory.getMarqueeViews();
+        for (int i = 0; i < mViews.size(); i++) {
+            addView(mViews.get(i));
+        }
     }
+<<<<<<< HEAD
+=======
 
-    public Animation getAnimIn() {
-        return animIn;
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg == null) return;
+        if (MarqueeFactory.COMMAND_UPDATE_DATA.equals(arg.toString())) {
+            Animation animation = getInAnimation();
+            if (animation != null && animation.hasStarted()) {
+                animation.setAnimationListener(new AnimationListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        refreshChildViews();
+                        if (animation != null) {
+                            animation.setAnimationListener(null);
+                        }
+                    }
+                });
+            } else {
+                refreshChildViews();
+            }
+        }
     }
-
-    public Animation getAnimOut() {
-        return animOut;
-    }
+>>>>>>> dev
 }

@@ -6,10 +6,11 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 15
+
+        minSdkVersion 14
         targetSdkVersion 25
-        versionCode 104
-        versionName "1.0.4"
+        versionCode 111
+        versionName "1.1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -27,6 +28,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
 }
 
@@ -34,7 +36,7 @@ publish {
     userOrg = 'gongwen92'      //bintray注册的用户名
     groupId = 'com.gongwen'         //compile引用时的第1部分groupId
     artifactId = 'marqueelibrary'     //compile引用时的第2部分项目名
-    publishVersion = '1.0.4'    //compile引用时的第3部分版本号
+    publishVersion = '1.1.1'    //compile引用时的第3部分版本号
     desc = 'This is the marqueeview library'
     website = 'https://github.com/gongwen/MarqueeViewDemo'
 }
