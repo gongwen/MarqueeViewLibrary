@@ -7,7 +7,7 @@
 ## 使用
 
 ### Gradle:
-compile 'com.gongwen:marqueelibrary:1.1.1
+compile "com.gongwen:marqueelibrary:1.1.1"
 
 ### 属性
 MarqueeView属性
@@ -43,7 +43,8 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
     app:marqueeAnimDuration="2000"
     app:smvTextColor="@color/white"
     app:smvTextGravity="center_vertical"
-    app:smvTextSize="15sp"></com.gongwen.marqueen.SimpleMarqueeView>
+    app:smvTextSize="15sp">
+</com.gongwen.marqueen.SimpleMarqueeView>
 ```
 
 #### 设置数据
@@ -77,7 +78,8 @@ marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<Tex
     android:flipInterval="2500"
     android:inAnimation="@anim/in_right"
     android:outAnimation="@anim/out_left"
-    app:marqueeAnimDuration="2000"></com.gongwen.marqueen.MarqueeView>
+    app:marqueeAnimDuration="2000">
+</com.gongwen.marqueen.MarqueeView>
 
 ```
 
