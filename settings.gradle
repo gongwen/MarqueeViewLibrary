@@ -1,1 +1,1 @@
-include ':app'/*, ':marqueelibrary'*/
+include ':app', ':marqueelibrary'

@@ -36,7 +36,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:smvTextColor="@color/white"
+                app:smvTextEllipsize="end"
                 app:smvTextGravity="center_vertical"
+                app:smvTextSingleLine="true"
                 app:smvTextSize="15sp"></com.gongwen.marqueen.SimpleMarqueeView>
 
         </LinearLayout>
@@ -151,6 +153,7 @@
                 app:smvTextGravity="center_vertical"
                 app:smvTextSize="15sp"></com.gongwen.marqueen.SimpleMarqueeView>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"

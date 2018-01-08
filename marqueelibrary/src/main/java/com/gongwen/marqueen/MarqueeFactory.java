@@ -17,9 +17,8 @@ public abstract class MarqueeFactory<T extends View, E> extends Observable {
     public final static String COMMAND_UPDATE_DATA = "UPDATE_DATA";
 
     protected Context mContext;
-    protected OnItemClickListener onItemClickListener;
     protected List<T> mViews;
-    protected List<E> datas;
+    protected List<E> dataList;
     private MarqueeView mMarqueeView;
 
     public MarqueeFactory(Context mContext) {
@@ -32,47 +31,23 @@ public abstract class MarqueeFactory<T extends View, E> extends Observable {
         return mViews != null ? mViews : Collections.EMPTY_LIST;
     }
 
-    public void setData(List<E> datas) {
-        if (datas == null) {
+    public void setData(List<E> dataList) {
+        if (dataList == null) {
             return;
         }
-        this.datas = datas;
+        this.dataList = dataList;
         mViews = new ArrayList<>();
-        for (int i = 0; i < datas.size(); i++) {
-            E data = datas.get(i);
+        for (int i = 0; i < dataList.size(); i++) {
+            E data = dataList.get(i);
             T mView = generateMarqueeItemView(data);
-            mView.setTag(new ViewHolder(mView, data, i));
-            mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClickListener((ViewHolder<T, E>) view.getTag());
-                    }
-                }
-            });
             mViews.add(mView);
         }
         notifyDataChanged();
     }
 
-    public void setOnItemClickListener(OnItemClickListener<T, E> mOnItemClickListener) {
-        this.onItemClickListener = mOnItemClickListener;
-    }
 
-    public interface OnItemClickListener<V extends View, E> {
-        void onItemClickListener(ViewHolder<V, E> holder);
-    }
-
-    public static class ViewHolder<V extends View, P> {
-        public V mView;
-        public P data;
-        public int position;
-
-        public ViewHolder(V mView, P data, int position) {
-            this.mView = mView;
-            this.data = data;
-            this.position = position;
-        }
+    public List<E> getData() {
+        return dataList;
     }
 
     private boolean isAttachedToMarqueeView() {

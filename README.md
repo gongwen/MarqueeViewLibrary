@@ -7,7 +7,7 @@
 ## 使用
 
 ### Gradle:
-compile 'com.gongwen:marqueelibrary:1.1.2'
+compile 'com.gongwen:marqueelibrary:1.1.3'
 
 ### 属性
 MarqueeView属性
@@ -28,6 +28,8 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
 | smvTextSize         |    文字大小       |
 | smvTextColor         | 文字颜色            |
 | smvTextGravity         |  文字位置          |
+| smvTextSingleLine | 文字是否单行显示 |
+| smvTextEllipsize | 文字显示不下时，系统的处理方式(可选：none，start，middle，end) |
 
 ### 用法一：使用SimpleMarqueeView和SimpleMF
 
@@ -48,7 +50,7 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
 
 #### 设置数据
 ```
-SimpleMarqueeView marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
+SimpleMarqueeView<String> marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
 SimpleMF<String> marqueeFactory = new SimpleMF(this);
 marqueeFactory.setData(datas);
@@ -58,10 +60,10 @@ marqueeView.startFlipping();
 
 #### 设置事件监听
 ```
-marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
+marqueeView.setOnItemClickListener(new OnItemClickListener<TextView, String>() {
     @Override
-    public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-        Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
+    public void onItemClickListener(TextView mView, String mData, int mPosition) {
+        Toast.makeText(MainActivity.this, String.format("mPosition:%s,mData:%s,mView:%s,.", mPosition, mData, mView), Toast.LENGTH_SHORT).show();
     }
 });
 ```

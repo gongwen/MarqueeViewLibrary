@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import java.util.List;
+
 /**
  * Created by GongWen on 17/9/11.
  */
@@ -45,5 +47,9 @@ public class Util {
         DisplayMetrics metric = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(metric);
         return metric.heightPixels;
+    }
+
+    public static boolean isEmpty(List mList) {
+        return mList == null || mList.size() == 0;
     }
 }
