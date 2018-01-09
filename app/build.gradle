@@ -28,7 +28,7 @@ dependencies {
     compile "com.android.support:design:$supportLibraryVersion"
     testCompile 'junit:junit:4.12'
     compile project(':marqueelibrary')
-    //compile 'com.gongwen:marqueelibrary:1.1.2'
+    //compile 'com.gongwen:marqueelibrary:1.1.3'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

@@ -1,5 +1,6 @@
 # MarqueeViewLibrary
-跑马灯View，支持自定义跑马灯ItemView。
+一个很方便使用和扩展的跑马灯Library，通过提供不同的MarqueeFactory来定制不同的跑马灯View，
+并且提供了常用类型的跑马灯效果：SimpleMarqueeView
 
 ## 效果图
 <img src="/screenshot/screen_shot.gif"/>
@@ -31,7 +32,7 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
 | smvTextSingleLine | 文字是否单行显示 |
 | smvTextEllipsize | 文字显示不下时，系统的处理方式(可选：none，start，middle，end) |
 
-### 用法一：使用SimpleMarqueeView和SimpleMF
+### 常见用法：使用SimpleMarqueeView和SimpleMF
 
 #### XML
 ```
@@ -44,14 +45,17 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
     android:outAnimation="@anim/out_left"
     app:marqueeAnimDuration="2000"
     app:smvTextColor="@color/white"
+    app:smvTextEllipsize="end"
     app:smvTextGravity="center_vertical"
-    app:smvTextSize="15sp"></com.gongwen.marqueen.SimpleMarqueeView>
+    app:smvTextSingleLine="true"
+    app:smvTextSize="15sp" />
 ```
 
 #### 设置数据
 ```
-SimpleMarqueeView<String> marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
+//SimpleMarqueeView<T>：泛型T指定其填充的数据类型，比如String，Spanned等
+SimpleMarqueeView<String> marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 SimpleMF<String> marqueeFactory = new SimpleMF(this);
 marqueeFactory.setData(datas);
 marqueeView.setMarqueeFactory(marqueeFactory);
@@ -68,12 +72,12 @@ marqueeView.setOnItemClickListener(new OnItemClickListener<TextView, String>() {
 });
 ```
 
-### 用法二：自定义MarqueeFactory来设置不同类型ItemView
+### 扩展用法：自定义MarqueeFactory来设置不同类型ItemView
 
 #### XML
 ```
 <com.gongwen.marqueen.MarqueeView
-    android:id="@+id/marqueeView4"
+    android:id="@+id/marqueeView"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:flipInterval="2500"
