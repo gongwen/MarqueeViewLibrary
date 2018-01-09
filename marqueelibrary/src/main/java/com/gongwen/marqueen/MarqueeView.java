@@ -3,12 +3,15 @@ package com.gongwen.marqueen;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AnimRes;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ViewFlipper;
 
 import com.gongwen.marqueen.util.AnimationListenerAdapter;
+import com.gongwen.marqueen.util.OnItemClickListener;
+import com.gongwen.marqueen.util.Util;
 
 import java.util.List;
 import java.util.Observable;
@@ -28,8 +31,8 @@ import java.util.Observer;
  * interval 必须大于 animDuration，否则视图将会重叠
  */
 
-public class MarqueeView extends ViewFlipper implements Observer {
-    protected MarqueeFactory factory;
+public class MarqueeView<T extends View, E> extends ViewFlipper implements Observer {
+    protected MarqueeFactory<T, E> factory;
     private final int DEFAULT_ANIM_RES_IN = R.anim.in_bottom;
     private final int DEFAULT_ANIM_RES_OUT = R.anim.out_top;
 
@@ -54,6 +57,7 @@ public class MarqueeView extends ViewFlipper implements Observer {
             getOutAnimation().setDuration(animDuration);
         }
         a.recycle();
+        setOnClickListener(onClickListener);
     }
 
     public void setAnimDuration(long animDuration) {
@@ -75,7 +79,7 @@ public class MarqueeView extends ViewFlipper implements Observer {
         setOutAnimation(getContext(), outResId);
     }
 
-    public void setMarqueeFactory(MarqueeFactory factory) {
+    public void setMarqueeFactory(MarqueeFactory<T, E> factory) {
         this.factory = factory;
         factory.attachedToMarqueeView(this);
         refreshChildViews();
@@ -85,7 +89,7 @@ public class MarqueeView extends ViewFlipper implements Observer {
         if (getChildCount() > 0) {
             removeAllViews();
         }
-        List<View> mViews = factory.getMarqueeViews();
+        List<T> mViews = factory.getMarqueeViews();
         for (int i = 0; i < mViews.size(); i++) {
             addView(mViews.get(i));
         }
@@ -111,4 +115,38 @@ public class MarqueeView extends ViewFlipper implements Observer {
             }
         }
     }
+    // <editor-fold desc="点击事件模块">
+
+    private OnItemClickListener<T, E> onItemClickListener;
+
+    private boolean isJustOnceFlag = true;
+    private final OnClickListener onClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                if (factory == null || Util.isEmpty(factory.getData()) || getChildCount() == 0) {
+                    onItemClickListener.onItemClickListener(null, null, -1);
+                    return;
+                }
+                final int displayedChild = getDisplayedChild();
+                final E mData = factory.getData().get(displayedChild);
+                onItemClickListener.onItemClickListener((T) getCurrentView(), mData, displayedChild);
+            }
+        }
+    };
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        if (isJustOnceFlag) {
+            super.setOnClickListener(l);
+            isJustOnceFlag = false;
+        } else {
+            throw new UnsupportedOperationException("The setOnClickListener method is not supported,please use setOnItemClickListener method.");
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<T, E> mOnItemClickListener) {
+        this.onItemClickListener = mOnItemClickListener;
+    }
+    // </editor-fold>
 }

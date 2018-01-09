@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -21,10 +22,12 @@ import java.util.List;
  * SimpleMarqueeView_smvTextGravity
  */
 
-public class SimpleMarqueeView extends MarqueeView {
-    private ColorStateList textColor = null;
-    private float textSize = 15;
+public class SimpleMarqueeView<E> extends MarqueeView<TextView, E> {
+    private ColorStateList smvTextColor = null;
+    private float smvTextSize = 15;
     private int smvTextGravity = Gravity.NO_GRAVITY;
+    private boolean smvTextSingleLine = false;
+    private TextUtils.TruncateAt smvTextEllipsize;
 
     public SimpleMarqueeView(Context context) {
         this(context, null);
@@ -36,14 +39,34 @@ public class SimpleMarqueeView extends MarqueeView {
     }
 
     private void init(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleMarqueeView, 0, 0);
-        textColor = a.getColorStateList(R.styleable.SimpleMarqueeView_smvTextColor);
-        if (a.hasValue(R.styleable.SimpleMarqueeView_smvTextSize)) {
-            textSize = a.getDimension(R.styleable.SimpleMarqueeView_smvTextSize, textSize);
-            textSize = Util.px2Sp(getContext(), textSize);
+        int ellipsize = -1;
+        if (attrs != null) {
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SimpleMarqueeView, 0, 0);
+            smvTextColor = a.getColorStateList(R.styleable.SimpleMarqueeView_smvTextColor);
+            if (a.hasValue(R.styleable.SimpleMarqueeView_smvTextSize)) {
+                smvTextSize = a.getDimension(R.styleable.SimpleMarqueeView_smvTextSize, smvTextSize);
+                smvTextSize = Util.px2Sp(getContext(), smvTextSize);
+            }
+            smvTextGravity = a.getInt(R.styleable.SimpleMarqueeView_smvTextGravity, smvTextGravity);
+            smvTextSingleLine = a.getBoolean(R.styleable.SimpleMarqueeView_smvTextSingleLine, smvTextSingleLine);
+            ellipsize = a.getInt(R.styleable.SimpleMarqueeView_smvTextEllipsize, ellipsize);
+            a.recycle();
         }
-        smvTextGravity = a.getInt(R.styleable.SimpleMarqueeView_smvTextGravity, smvTextGravity);
-        a.recycle();
+        if (smvTextSingleLine && ellipsize < 0) {
+            ellipsize = 3; // END
+        }
+
+        switch (ellipsize) {
+            case 1:
+                smvTextEllipsize = TextUtils.TruncateAt.START;
+                break;
+            case 2:
+                smvTextEllipsize = TextUtils.TruncateAt.MIDDLE;
+                break;
+            case 3:
+                smvTextEllipsize = TextUtils.TruncateAt.END;
+                break;
+        }
     }
 
     @Override
@@ -51,19 +74,21 @@ public class SimpleMarqueeView extends MarqueeView {
         super.refreshChildViews();
         List<TextView> views = factory.getMarqueeViews();
         for (TextView textView : views) {
-            textView.setTextSize(textSize);
+            textView.setTextSize(smvTextSize);
             textView.setGravity(smvTextGravity);
-            if (textColor != null) {
-                textView.setTextColor(textColor);
+            if (smvTextColor != null) {
+                textView.setTextColor(smvTextColor);
             }
+            textView.setSingleLine(smvTextSingleLine);
+            textView.setEllipsize(smvTextEllipsize);
         }
     }
 
     public void setTextSize(float textSize) {
-        this.textSize = textSize;
+        this.smvTextSize = textSize;
         if (factory != null) {
-            for (Object obj : factory.getMarqueeViews()) {
-                ((TextView) obj).setTextSize(textSize);
+            for (TextView textView : factory.getMarqueeViews()) {
+                textView.setTextSize(textSize);
             }
         }
     }
@@ -72,11 +97,11 @@ public class SimpleMarqueeView extends MarqueeView {
         setTextColor(ColorStateList.valueOf(color));
     }
 
-    public void setTextColor(ColorStateList colors) {
-        this.textColor = colors;
+    public void setTextColor(ColorStateList colorStateList) {
+        this.smvTextColor = colorStateList;
         if (factory != null) {
-            for (Object obj : factory.getMarqueeViews()) {
-                ((TextView) obj).setTextColor(textColor);
+            for (TextView textView : factory.getMarqueeViews()) {
+                textView.setTextColor(smvTextColor);
             }
         }
     }
@@ -84,8 +109,29 @@ public class SimpleMarqueeView extends MarqueeView {
     public void setTextGravity(int gravity) {
         this.smvTextGravity = gravity;
         if (factory != null) {
-            for (Object obj : factory.getMarqueeViews()) {
-                ((TextView) obj).setGravity(smvTextGravity);
+            for (TextView textView : factory.getMarqueeViews()) {
+                textView.setGravity(smvTextGravity);
+            }
+        }
+    }
+
+    public void setTextSingleLine(boolean singleLine) {
+        this.smvTextSingleLine = singleLine;
+        if (factory != null) {
+            for (TextView textView : factory.getMarqueeViews()) {
+                textView.setSingleLine(smvTextSingleLine);
+            }
+        }
+    }
+
+    public void setTextEllipsize(TextUtils.TruncateAt where) {
+        if (where == TextUtils.TruncateAt.MARQUEE) {
+            throw new UnsupportedOperationException("The type MARQUEE is not supported!");
+        }
+        this.smvTextEllipsize = where;
+        if (factory != null) {
+            for (TextView textView : factory.getMarqueeViews()) {
+                textView.setEllipsize(where);
             }
         }
     }

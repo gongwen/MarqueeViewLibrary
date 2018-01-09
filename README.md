@@ -1,13 +1,20 @@
 # MarqueeViewLibrary
-跑马灯View，支持自定义跑马灯ItemView。
+一个很方便使用和扩展的跑马灯Library，通过提供不同的MarqueeFactory来定制不同的跑马灯View，
+并且提供了常用类型的跑马灯效果：SimpleMarqueeView
 
-## 效果图
+效果图
+---
+
 <img src="/screenshot/screen_shot.gif"/>
+
+示例Apk下载
+---
+[示例Apk下载](https://github.com/gongwen/MarqueeViewLibrary/raw/master/sample-apk/app-debug-1.1.3.apk)
 
 ## 使用
 
 ### Gradle:
-compile 'com.gongwen:marqueelibrary:1.1.2'
+compile 'com.gongwen:marqueelibrary:1.1.3'
 
 ### 属性
 MarqueeView属性
@@ -28,8 +35,10 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
 | smvTextSize         |    文字大小       |
 | smvTextColor         | 文字颜色            |
 | smvTextGravity         |  文字位置          |
+| smvTextSingleLine | 文字是否单行显示 |
+| smvTextEllipsize | 文字显示不下时，系统的处理方式(可选：none，start，middle，end) |
 
-### 用法一：使用SimpleMarqueeView和SimpleMF
+### 常见用法：使用SimpleMarqueeView和SimpleMF
 
 #### XML
 ```
@@ -42,36 +51,44 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
     android:outAnimation="@anim/out_left"
     app:marqueeAnimDuration="2000"
     app:smvTextColor="@color/white"
+    app:smvTextEllipsize="end"
     app:smvTextGravity="center_vertical"
-    app:smvTextSize="15sp"></com.gongwen.marqueen.SimpleMarqueeView>
+    app:smvTextSingleLine="true"
+    app:smvTextSize="15sp" />
 ```
 
 #### 设置数据
 ```
-SimpleMarqueeView marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
+//SimpleMarqueeView<T>，SimpleMF<T>：泛型T指定其填充的数据类型，比如String，Spanned等
+SimpleMarqueeView<String> marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 SimpleMF<String> marqueeFactory = new SimpleMF(this);
 marqueeFactory.setData(datas);
 marqueeView.setMarqueeFactory(marqueeFactory);
 marqueeView.startFlipping();
 ```
 
-#### 设置事件监听
+#### 设置监听事件
 ```
-marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
+marqueeView.setOnItemClickListener(new OnItemClickListener<TextView, String>() {
     @Override
-    public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-        Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
+    public void onItemClickListener(TextView mView, String mData, int mPosition) {
+        /**
+        * 注意：
+        * 当MarqueeView有子View时，mView：当前显示的子View，mData：mView所填充的数据，mPosition：mView的索引
+        * 当MarqueeView无子View时，mView：null，mData：null，mPosition：－1
+        */
+        Toast.makeText(MainActivity.this, String.format("mPosition:%s,mData:%s,mView:%s,.", mPosition, mData, mView), Toast.LENGTH_SHORT).show();
     }
 });
 ```
 
-### 用法二：自定义MarqueeFactory来设置不同类型ItemView
+### 扩展用法：自定义MarqueeFactory来定制任意类型ItemView
 
 #### XML
 ```
 <com.gongwen.marqueen.MarqueeView
-    android:id="@+id/marqueeView4"
+    android:id="@+id/marqueeView"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:flipInterval="2500"
@@ -85,6 +102,9 @@ marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<Tex
 继承自MarqueeFactory，通过泛型指定ItemView类型以及ItemData类型，之后实现generateMarqueeItemView方法，提供ItemView，并为ItemView设置数据即可。
 ##### 例如：
 ```
+//MarqueeFactory<T extends View, E>
+//泛型T:指定ItemView的类型
+//泛型E:指定ItemView填充的数据类型
 public class ComplexViewMF extends MarqueeFactory<RelativeLayout, ComplexItemEntity> {
     private LayoutInflater inflater;
 
@@ -103,7 +123,7 @@ public class ComplexViewMF extends MarqueeFactory<RelativeLayout, ComplexItemEnt
     }
 }
 ```
-#### 设置数据和事件监听用法同上
+#### 设置数据和监听事件用法同上
 
 #### 重影问题可参考以下解决方案(参考自[这里](https://github.com/sfsheng0322/MarqueeView))
 

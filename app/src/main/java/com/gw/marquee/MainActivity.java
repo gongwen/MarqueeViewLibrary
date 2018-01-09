@@ -14,6 +14,7 @@ import com.gongwen.marqueen.MarqueeFactory;
 import com.gongwen.marqueen.MarqueeView;
 import com.gongwen.marqueen.SimpleMF;
 import com.gongwen.marqueen.SimpleMarqueeView;
+import com.gongwen.marqueen.util.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,10 +22,11 @@ import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    private final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
-    private SimpleMarqueeView marqueeView1, marqueeView2, marqueeView3, marqueeView5, marqueeView6;
+    private final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。", "测试测试测试测试测试测试测试测试测试测试测试");
+    private SimpleMarqueeView<String> marqueeView1, marqueeView2, marqueeView5, marqueeView6;
+    private SimpleMarqueeView<Spanned> marqueeView3;
     private ImageView yellowSpeaker;
-    private MarqueeView marqueeView4;
+    private MarqueeView<RelativeLayout, ComplexItemEntity> marqueeView4;
 
     private WeakHandler mHandler = new WeakHandler();
 
@@ -32,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        marqueeView1 = (SimpleMarqueeView) findViewById(R.id.marqueeView1);
-        marqueeView2 = (SimpleMarqueeView) findViewById(R.id.marqueeView2);
-        marqueeView3 = (SimpleMarqueeView) findViewById(R.id.marqueeView3);
-        yellowSpeaker = (ImageView) findViewById(R.id.yellowSpeaker);
-        marqueeView4 = (MarqueeView) findViewById(R.id.marqueeView4);
-        marqueeView5 = (SimpleMarqueeView) findViewById(R.id.marqueeView5);
-        marqueeView6 = (SimpleMarqueeView) findViewById(R.id.marqueeView6);
+        marqueeView1 = findViewById(R.id.marqueeView1);
+        marqueeView2 = findViewById(R.id.marqueeView2);
+        marqueeView3 = findViewById(R.id.marqueeView3);
+        yellowSpeaker = findViewById(R.id.yellowSpeaker);
+        marqueeView4 = findViewById(R.id.marqueeView4);
+        marqueeView5 = findViewById(R.id.marqueeView5);
+        marqueeView6 = findViewById(R.id.marqueeView6);
         DrawableCompat.setTint(DrawableCompat.wrap(yellowSpeaker.getDrawable().mutate()), getResources().getColor(R.color.yellow));
 
         initMarqueeView1();
@@ -54,12 +56,7 @@ public class MainActivity extends AppCompatActivity {
         marqueeFactory.setData(datas);
         marqueeView1.setMarqueeFactory(marqueeFactory);
         marqueeView1.startFlipping();
-        marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
-            @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-                Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
-            }
-        });
+        marqueeView1.setOnItemClickListener(onSimpleItemClickListener);
     }
 
     private void initMarqueeView2() {
@@ -67,12 +64,7 @@ public class MainActivity extends AppCompatActivity {
         marqueeFactory2.setData(datas);
         marqueeView2.setMarqueeFactory(marqueeFactory2);
         marqueeView2.startFlipping();
-        marqueeFactory2.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
-            @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-                Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
-            }
-        });
+        marqueeView2.setOnItemClickListener(onSimpleItemClickListener);
     }
 
     private void initMarqueeView3() {
@@ -86,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
         marqueeFactory3.setData(datas3);
         marqueeView3.setMarqueeFactory(marqueeFactory3);
         marqueeView3.startFlipping();
-        marqueeFactory3.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, Spanned>() {
+        marqueeView3.setOnItemClickListener(new OnItemClickListener<TextView, Spanned>() {
             @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, Spanned> holder) {
-                Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
+            public void onItemClickListener(TextView mView, Spanned mData, int mPosition) {
+                Toast.makeText(MainActivity.this, String.format("mPosition:%s,mData:%s,mView:%s,.", mPosition, mData, mView), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -100,13 +92,14 @@ public class MainActivity extends AppCompatActivity {
             complexDatas.add(new ComplexItemEntity("标题 " + i, "副标题 " + i, "时间 " + i));
         }
         MarqueeFactory<RelativeLayout, ComplexItemEntity> marqueeFactory = new ComplexViewMF(MainActivity.this);
-        marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<RelativeLayout, ComplexItemEntity>() {
+
+        marqueeFactory.setData(complexDatas);
+        marqueeView4.setOnItemClickListener(new OnItemClickListener<RelativeLayout, ComplexItemEntity>() {
             @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<RelativeLayout, ComplexItemEntity> holder) {
-                Toast.makeText(MainActivity.this, holder.data.toString(), Toast.LENGTH_SHORT).show();
+            public void onItemClickListener(RelativeLayout mView, ComplexItemEntity mData, int mPosition) {
+                Toast.makeText(MainActivity.this, String.format("mPosition:%s,mData:%s,mView:%s,.", mPosition, mData, mView), Toast.LENGTH_SHORT).show();
             }
         });
-        marqueeFactory.setData(complexDatas);
         marqueeView4.setInAndOutAnim(R.anim.in_top, R.anim.out_bottom);
         marqueeView4.setMarqueeFactory(marqueeFactory);
         marqueeView4.startFlipping();
@@ -114,26 +107,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initMarqueeView5() {
         SimpleMF<String> marqueeFactory = new SimpleMF(this);
-        marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
-            @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-                Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
-            }
-        });
         marqueeFactory.setData(datas);
+        marqueeView5.setOnItemClickListener(onSimpleItemClickListener);
         marqueeView5.setMarqueeFactory(marqueeFactory);
         marqueeView5.startFlipping();
     }
 
     private void initMarqueeView6() {
         final SimpleMF<String> marqueeFactory = new SimpleMF<>(this);
-        marqueeFactory.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
-            @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-                Toast.makeText(MainActivity.this, holder.data, Toast.LENGTH_SHORT).show();
-            }
-        });
         marqueeFactory.setData(datas);
+        marqueeView6.setOnItemClickListener(onSimpleItemClickListener);
         marqueeView6.setMarqueeFactory(marqueeFactory);
         marqueeView6.startFlipping();
 
@@ -164,4 +147,11 @@ public class MainActivity extends AppCompatActivity {
         marqueeView2.stopFlipping();
         marqueeView3.stopFlipping();
     }
+
+    private OnItemClickListener<TextView, String> onSimpleItemClickListener = new OnItemClickListener<TextView, String>() {
+        @Override
+        public void onItemClickListener(TextView mView, String mData, int mPosition) {
+            Toast.makeText(MainActivity.this, String.format("mPosition:%s,mData:%s,mView:%s,.", mPosition, mData, mView), Toast.LENGTH_SHORT).show();
+        }
+    };
 }
