@@ -2,8 +2,14 @@
 一个很方便使用和扩展的跑马灯Library，通过提供不同的MarqueeFactory来定制不同的跑马灯View，
 并且提供了常用类型的跑马灯效果：SimpleMarqueeView
 
-## 效果图
+效果图
+---
+
 <img src="/screenshot/screen_shot.gif"/>
+
+示例Apk下载
+---
+[示例Apk下载](https://github.com/gongwen/MarqueeViewLibrary/raw/master/sample-apk/app-debug-1.1.3.apk)
 
 ## 使用
 
