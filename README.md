@@ -54,7 +54,7 @@ SimpleMarqueeView属性(支持MarqueeView所有属性及以下属性)
 #### 设置数据
 ```
 final List<String> datas = Arrays.asList("《赋得古原草送别》", "离离原上草，一岁一枯荣。", "野火烧不尽，春风吹又生。", "远芳侵古道，晴翠接荒城。", "又送王孙去，萋萋满别情。");
-//SimpleMarqueeView<T>：泛型T指定其填充的数据类型，比如String，Spanned等
+//SimpleMarqueeView<T>，SimpleMF<T>：泛型T指定其填充的数据类型，比如String，Spanned等
 SimpleMarqueeView<String> marqueeView = (SimpleMarqueeView) findViewById(R.id.marqueeView);
 SimpleMF<String> marqueeFactory = new SimpleMF(this);
 marqueeFactory.setData(datas);
@@ -62,17 +62,22 @@ marqueeView.setMarqueeFactory(marqueeFactory);
 marqueeView.startFlipping();
 ```
 
-#### 设置事件监听
+#### 设置监听事件
 ```
 marqueeView.setOnItemClickListener(new OnItemClickListener<TextView, String>() {
     @Override
     public void onItemClickListener(TextView mView, String mData, int mPosition) {
+        /**
+        * 注意：
+        * 当MarqueeView有子View时，mView：当前显示的子View，mData：mView所填充的数据，mPosition：mView的索引
+        * 当MarqueeView无子View时，mView：null，mData：null，mPosition：－1
+        */
         Toast.makeText(MainActivity.this, String.format("mPosition:%s,mData:%s,mView:%s,.", mPosition, mData, mView), Toast.LENGTH_SHORT).show();
     }
 });
 ```
 
-### 扩展用法：自定义MarqueeFactory来设置不同类型ItemView
+### 扩展用法：自定义MarqueeFactory来定制任意类型ItemView
 
 #### XML
 ```
@@ -91,6 +96,9 @@ marqueeView.setOnItemClickListener(new OnItemClickListener<TextView, String>() {
 继承自MarqueeFactory，通过泛型指定ItemView类型以及ItemData类型，之后实现generateMarqueeItemView方法，提供ItemView，并为ItemView设置数据即可。
 ##### 例如：
 ```
+//MarqueeFactory<T extends View, E>
+//泛型T:指定ItemView的类型
+//泛型E:指定ItemView填充的数据类型
 public class ComplexViewMF extends MarqueeFactory<RelativeLayout, ComplexItemEntity> {
     private LayoutInflater inflater;
 
@@ -109,7 +117,7 @@ public class ComplexViewMF extends MarqueeFactory<RelativeLayout, ComplexItemEnt
     }
 }
 ```
-#### 设置数据和事件监听用法同上
+#### 设置数据和监听事件用法同上
 
 #### 重影问题可参考以下解决方案(参考自[这里](https://github.com/sfsheng0322/MarqueeView))
 
