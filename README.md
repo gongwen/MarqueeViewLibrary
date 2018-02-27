@@ -14,7 +14,7 @@
 ## 使用
 
 ### Gradle:
-compile 'com.gongwen:marqueelibrary:1.1.3'
+implementation 'com.gongwen:marqueelibrary:1.1.3'
 
 ### 属性
 MarqueeView属性
