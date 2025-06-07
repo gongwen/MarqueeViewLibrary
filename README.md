@@ -140,6 +140,10 @@ public void onStop() {
     marqueeView.stopFlipping();
 }
 </pre>
+
+Powered by DartNod
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
 License
 --
     Copyright (C) 2016 1798550470@qq.com
